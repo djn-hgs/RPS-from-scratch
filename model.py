@@ -73,21 +73,25 @@ class Round:
         self.complete: bool = False
         self.play_winners: list[Player] = []
         self.winner: Player | None = None
+        self.awaiting_choice = False
 
     def __repr__(self):
         return f'Round {str(self.plays)}'
 
     def next_player(self):
         self.current_player = next(self.cursor, None)
+        self.awaiting_choice = True
 
         if self.current_player is None:
             self.complete = True
 
     def get_computer_choice(self):
         self.plays[self.current_player] = self.current_player.make_random_choice()
+        self.awaiting_choice = False
 
     def set_play(self, choice: Play):
         self.plays[self.current_player] = choice
+        self.awaiting_choice = False
 
     def decide_winner(self):
         num_players = len(self.players)

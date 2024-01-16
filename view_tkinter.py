@@ -126,7 +126,8 @@ class TkGame(tk.Frame):
         self.game_status_text.set('Round started')
 
         if not self.game.current_round.complete:
-            self.controller.next_player()
+            if not self.game.current_round.awaiting_choice:
+                self.controller.next_player()
 
         if self.game.current_round.complete:
             self.game_status_text.set('Round complete')
